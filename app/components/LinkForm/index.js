@@ -10,6 +10,12 @@ import styles from './styles.css';
 import TextInput from '../TextInput';
 
 class LinkForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  static propTypes = {
+    addLink: React.PropTypes.func.isRequired,
+    topicName: React.PropTypes.string.isRequired,
+    addLinkCancelled: React.PropTypes.func.isRequired
+  }
+
   state = {
     urlError: '',
     descriptionError: ''
@@ -33,10 +39,16 @@ class LinkForm extends React.Component { // eslint-disable-line react/prefer-sta
       urlError,
       descriptionError
     });
-    
+
     if (urlError || descriptionError) {
       return;
     }
+
+    this.props.addLink({
+      url,
+      description,
+      topicName: this.props.topicName
+    })
   }
 
   render() {
@@ -56,7 +68,7 @@ class LinkForm extends React.Component { // eslint-disable-line react/prefer-sta
             ref={(f) => (this.description = f)}/>
 
           <div className={styles.actionContainer}>
-            <div className={styles.button} onClick={this.props.cancelLogin}>cancel</div>
+            <div className={styles.button} onClick={this.props.addLinkCancelled}>cancel</div>
             <div className={styles.button} onClick={this.onAdd}>add</div>
           </div>
         </div>
